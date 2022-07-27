@@ -3,22 +3,19 @@ import {Ionicons} from "@expo/vector-icons";
 import {colors} from "../config/constants";
 import React from "react";
 
-const ContactRow = ({name, subtitle, onPress}) => {
+const ContactRow = ({name, subtitle, onPress, style}) => {
     return (
-        <TouchableOpacity onPress={onPress}>
-            <View style={styles.row}>
-
-                <View style={styles.avatar}>
-                    <Text
-                        style={styles.avatarLabel}>{name.split(' ').reduce((prev, current) => `${prev}${current[0]}`, '')}</Text>
-                </View>
-
-                <View style={styles.textsContainer}>
-                    <Text style={styles.name}>{name}</Text>
-                    <Text style={styles.subtitle}>{subtitle}</Text>
-                </View>
-                <Ionicons name="chevron-forward-outline" size={20} color={colors.secondaryColorAlt}/>
+        <TouchableOpacity style={[styles.row, style]} onPress={onPress}>
+            <View style={styles.avatar}>
+                <Text
+                    style={styles.avatarLabel}>{name.split(' ').reduce((prev, current) => `${prev}${current[0]}`, '')}</Text>
             </View>
+
+            <View style={styles.textsContainer}>
+                <Text style={styles.name}>{name}</Text>
+                <Text style={styles.subtitle}>{subtitle}</Text>
+            </View>
+            <Ionicons name="chevron-forward-outline" size={20} color={colors.secondaryColorAlt}/>
         </TouchableOpacity>
     )
 }
@@ -27,10 +24,6 @@ const styles = StyleSheet.create({
     row: {
         paddingHorizontal: 10,
         paddingVertical: 10,
-        borderStyle: 'solid',
-        borderBottomWidth: 1,
-        borderColor: colors.secondaryColorAlt,
-        marginBottom: 10,
         flexDirection: 'row',
         alignItems: 'center',
     },
@@ -39,12 +32,12 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 18,
-        color: '#D1D5DB'
+        color: colors.primaryTextColor
     },
     subtitle: {
         marginTop: 2,
         fontSize: 14,
-        color: '#9CA3AF'
+        color: colors.secondaryTextColor
     },
     avatar: {
         width: 56,
@@ -54,7 +47,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 10,
+    },
+    avatarLabel: {
+        color: colors.secondaryColor
     }
+
 })
 
 export default ContactRow;
