@@ -61,11 +61,24 @@ const App = () => {
         <SafeAreaView style={{flex: 1, backgroundColor: colors.primaryColor}}>
             <StatusBar style="light"/>
             <NavigationContainer theme={defaultTheme}>
-                <Stack.Navigator>
+                <Stack.Navigator screenOptions={() => ({
+                    headerStyle: {
+                        shadowColor: colors.secondaryColorAlt,
+                        elevation: 0,
+                        backgroundColor: colors.primaryColorAlt,
+                    },
+                    headerTitleStyle: {
+                        color: 'white',
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                    }
+                })}>
                     <Stack.Screen name="Main" component={TabsNavigator} options={{headerShown: false}}/>
-                    <Stack.Screen name="SignIn" component={SignIn} options={{headerShown: false}}/>
-                    <Stack.Screen name="SignUp" component={SignUp} options={{headerShown: false}}/>
-                    <Stack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
+                    <Stack.Screen name="SignIn" component={SignIn}
+                                  options={{headerShown: false, presentation: "fullScreenModal"}}/>
+                    <Stack.Screen name="SignUp" component={SignUp}
+                                  options={{headerShown: false, presentation: "fullScreenModal"}}/>
+                    <Stack.Screen name="Chat" component={Chat}/>
                 </Stack.Navigator>
             </NavigationContainer>
         </SafeAreaView>
