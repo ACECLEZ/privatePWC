@@ -39,9 +39,11 @@ const TabsNavigator = () => (
             fontSize: 18,
             fontWeight: 'bold',
         },
+        tabBarActiveTintColor: colors.thirdColor,
+        tabBarInactiveTintColor: colors.secondaryColorAlt,
         tabBarIcon: ({focused, color, size}) => {
             let iconName;
-            if(route.name === 'Chats') {
+            if (route.name === 'Chats') {
                 iconName = focused ? 'chatbubbles' : 'chatbubbles-outline'
             } else if (route.name === 'Settings') {
                 iconName = focused ? 'settings' : 'settings-outline'
