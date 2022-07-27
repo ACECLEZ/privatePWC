@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {ScrollView, Alert} from "react-native";
 import ContactRow from "../components/ContactRow";
 import Divider from "../components/Divider";
@@ -18,12 +18,19 @@ const chats = [
     }
 ]
 
-const ChatList = () => {
+const ChatList = ({navigation}) => {
+    useEffect(() => {
+        const isLoggedIn = false;
+
+        if (!isLoggedIn) {
+            navigation.navigate('SignUp')
+        }
+    }, [])
     return (
         <ScrollView>
             {chats.map((chat, index) => (
                 <React.Fragment key={index}>
-                    <ContactRow {...chat}/>
+                    <ContactRow {...chat} onPress={() => navigation.navigate('Chat')}/>
                     <Divider/>
                 </React.Fragment>
             ))}
