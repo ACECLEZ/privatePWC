@@ -27,22 +27,29 @@ const TabsNavigator = () => (
     <Tabs.Navigator screenOptions={({route}) => ({
         tabBarStyle: {
             backgroundColor: colors.primaryColorAlt,
+            borderTopColor: colors.secondaryColorAlt,
         },
         headerStyle: {
+            shadowColor: colors.secondaryColorAlt,
+            elevation: 0,
             backgroundColor: colors.primaryColorAlt,
         },
         headerTitleStyle: {
             color: 'white',
+            fontSize: 18,
+            fontWeight: 'bold',
         },
-        headerTintColor: 'black',
         tabBarIcon: ({focused, color, size}) => {
-            return (
-                <Ionicons name={route.name === 'ChatList' ? 'chatbubbles' : 'settings'}
-                          size={size} color={color}/>
-            )
+            let iconName;
+            if(route.name === 'Chats') {
+                iconName = focused ? 'chatbubbles' : 'chatbubbles-outline'
+            } else if (route.name === 'Settings') {
+                iconName = focused ? 'settings' : 'settings-outline'
+            }
+            return <Ionicons name={iconName} size={size} color={color}/>
         }
     })}>
-        <Tabs.Screen name="ChatList" component={ChatList} options={{title: "Chats"}}/>
+        <Tabs.Screen name="Chats" component={ChatList}/>
         <Tabs.Screen name="Settings" component={Settings}/>
     </Tabs.Navigator>
 )
@@ -51,14 +58,14 @@ const App = () => {
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: colors.primaryColor}}>
             <StatusBar style="light"/>
-                <NavigationContainer theme={defaultTheme}>
-                    <Stack.Navigator>
-                        <Stack.Screen name="Main" component={TabsNavigator} options={{headerShown: false}}/>
-                        <Stack.Screen name="SignIn" component={SignIn} options={{headerShown: false}}/>
-                        <Stack.Screen name="SignUp" component={SignUp} options={{headerShown: false}}/>
-                        <Stack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
-                    </Stack.Navigator>
-                </NavigationContainer>
+            <NavigationContainer theme={defaultTheme}>
+                <Stack.Navigator>
+                    <Stack.Screen name="Main" component={TabsNavigator} options={{headerShown: false}}/>
+                    <Stack.Screen name="SignIn" component={SignIn} options={{headerShown: false}}/>
+                    <Stack.Screen name="SignUp" component={SignUp} options={{headerShown: false}}/>
+                    <Stack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
+                </Stack.Navigator>
+            </NavigationContainer>
         </SafeAreaView>
     )
 }
