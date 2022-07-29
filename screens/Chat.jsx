@@ -3,6 +3,9 @@ import {Bubble, GiftedChat, InputToolbar, Send} from 'react-native-gifted-chat'
 import {colors} from "../config/constants";
 import {Ionicons} from "@expo/vector-icons";
 import {View} from "react-native";
+import {doc, setDoc, onSnapshot} from "firebase/firestore";
+import {auth, db} from "../firebaseConfig";
+import {onAuthStateChanged} from "firebase/auth";
 
 const renderBubble = props => {
     return (
@@ -62,34 +65,43 @@ const renderSend = props => {
     )
 }
 
-const Chat = () => {
+const Chat = ({route}) => {
     const [messages, setMessages] = useState([]);
+    const [uid, setUID] = useState("")
+    const [name, setName] = useState("")
+    const chatsRef = doc(db, "chats", route.params.id);
 
     useEffect(() => {
-        setMessages([
-            {
-                _id: 1,
-                text: 'Hi',
-                createdAt: new Date(),
-                user: {
-                    _id: 2,
-                    name: 'React Native',
-                    avatar: 'https://placeimg.com/140/140/any',
-                },
-            },
-        ])
+        onSnapshot(chatsRef, async (snapshot) => {
+            await setMessages(snapshot.data().messages.map(message => ({
+                ...message,
+                createdAt: message.createdAt.toDate()
+            })))
+        })
+    }, [route.params.id])
+
+    useEffect(() => {
+        onAuthStateChanged(auth, usr => {
+            if(usr) {
+                setUID(usr.uid)
+                setName(usr.displayName)
+            }
+        })
     }, [])
 
-    const onSend = useCallback((messages = []) => {
-        setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-    }, [])
+    const onSend = useCallback(async (m = []) => {
+        await setDoc(chatsRef, {
+            messages: GiftedChat.append(messages, m)
+        }, {merge: true});
+    }, [route.params.id, messages])
 
     return (
         <GiftedChat
             messages={messages}
             onSend={messages => onSend(messages)}
             user={{
-                _id: 1,
+                _id: uid,
+                name: name
             }}
             multiline={false}
             renderBubble={renderBubble}
