@@ -3,9 +3,9 @@ import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import {colors} from "../config/constants";
 
-const SettingsBtn = ({title, icon, iconColor, iconBgColor}) => {
+const SettingsBtn = ({title, icon, iconColor, iconBgColor, onPress}) => {
     return(
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity style={styles.btn} onPress={onPress}>
             <View style={[styles.iconContainer, {backgroundColor: iconBgColor}]}>
                 <Ionicons name={icon} size={24} color={iconColor}/>
             </View>

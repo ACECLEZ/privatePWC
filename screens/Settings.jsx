@@ -4,14 +4,17 @@ import ContactRow from "../components/ContactRow";
 import {colors} from "../config/constants";
 import Divider from "../components/Divider";
 import SettingsBtn from "../components/SettingsBtn";
+import {auth} from "../firebaseConfig";
+import {signOut} from 'firebase/auth'
 
-const Settings = () => {
+const Settings = ({navigation}) => {
     return (
         <View>
-            <ContactRow name="Fıratcan Ulukaya" subtitle="Lorem ipsum dolor sit amet." style={styles.settingsRow}/>
+            <ContactRow name={auth.currentUser.displayName} subtitle={auth?.currentUser?.email}
+                        style={styles.settingsRow} onPress={() => navigation.navigate('UserProfile')}/>
 
             <View style={{marginTop: 20}}>
-                <SettingsBtn icon="walk-outline" title="Logout"
+                <SettingsBtn icon="walk-outline" title="Logout" onPress={() => signOut(auth)}
                              iconColor={colors.thirdColor}
                              iconBgColor={colors.primaryColor}/>
             </View>
@@ -25,7 +28,6 @@ const Settings = () => {
                              iconColor={colors.secondaryTextColor}
                              iconBgColor={"#DC2626"}/>
             </View>
-
         </View>
     )
 }

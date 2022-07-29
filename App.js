@@ -9,6 +9,7 @@ import Settings from "./screens/Settings";
 import SignIn from "./screens/SignIn";
 import SignUp from "./screens/SignUp";
 import Chat from "./screens/Chat";
+import UserProfile from "./screens/UserProfile";
 import {SafeAreaView} from "react-native";
 import {colors} from "./config/constants";
 
@@ -79,6 +80,7 @@ const App = () => {
                     <Stack.Screen name="SignUp" component={SignUp}
                                   options={{headerShown: false, presentation: "fullScreenModal"}}/>
                     <Stack.Screen name="Chat" component={Chat}/>
+                    <Stack.Screen name="UserProfile" component={UserProfile} options={{title: 'Profile'}}/>
                 </Stack.Navigator>
             </NavigationContainer>
         </SafeAreaView>

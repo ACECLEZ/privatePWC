@@ -2,6 +2,8 @@ import React, {useEffect} from 'react';
 import {ScrollView, Alert} from "react-native";
 import ContactRow from "../components/ContactRow";
 import Divider from "../components/Divider";
+import {onAuthStateChanged} from "firebase/auth";
+import {auth} from "../firebaseConfig";
 
 const chats = [
     {
@@ -19,13 +21,13 @@ const chats = [
 ]
 
 const ChatList = ({navigation}) => {
-    useEffect(() => {
-        const isLoggedIn = false;
 
-        if (!isLoggedIn) {
-            navigation.navigate('SignUp')
-        }
+    useEffect(() => {
+        onAuthStateChanged(auth, usr => {
+            if (!usr) return navigation.navigate('SignIn')
+        })
     }, [])
+
     return (
         <ScrollView>
             {chats.map((chat, index) => (
