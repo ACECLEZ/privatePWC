@@ -1,4 +1,5 @@
 import React from 'react';
+import {SafeAreaView} from "react-native";
 import {NavigationContainer, DefaultTheme} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
@@ -10,7 +11,7 @@ import SignIn from "./screens/SignIn";
 import SignUp from "./screens/SignUp";
 import Chat from "./screens/Chat";
 import UserProfile from "./screens/UserProfile";
-import {SafeAreaView} from "react-native";
+import CreateChat from "./screens/CreateChat";
 import {colors} from "./config/constants";
 
 const Stack = createNativeStackNavigator();
@@ -81,6 +82,7 @@ const App = () => {
                                   options={{headerShown: false, presentation: "fullScreenModal"}}/>
                     <Stack.Screen name="Chat" component={Chat}/>
                     <Stack.Screen name="UserProfile" component={UserProfile} options={{title: 'Profile'}}/>
+                    <Stack.Screen name="CreateChat" component={CreateChat} options={{title: 'Start a Chat'}}/>
                 </Stack.Navigator>
             </NavigationContainer>
         </SafeAreaView>
