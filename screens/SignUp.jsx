@@ -2,11 +2,23 @@ import React, {useState} from 'react';
 import {Text, View, StyleSheet, TextInput, TouchableOpacity, SafeAreaView} from "react-native";
 import {colors} from "../config/constants";
 import {Ionicons} from "@expo/vector-icons";
+import {auth} from "../firebaseConfig";
+import {createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
 
 const SignUp = ({navigation}) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const register = async () => {
+        await createUserWithEmailAndPassword(auth, email, password)
+            .then(async usr => {
+                await updateProfile(auth.currentUser, {displayName: name})
+                    .catch(console.warn)
+                navigation.popToTop();
+            })
+            .catch(e => alert(e.message))
+    }
 
     return (
         <SafeAreaView>
@@ -24,7 +36,7 @@ const SignUp = ({navigation}) => {
                     </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity style={styles.btn} activeOpacity={.7}>
+                <TouchableOpacity style={styles.btn} activeOpacity={.7} onPress={register}>
                     <Ionicons name="heart-outline" color={colors.secondaryColor} size={16}/>
                     <Text style={styles.btnText}>Sign Up</Text>
                 </TouchableOpacity>

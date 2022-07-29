@@ -2,10 +2,21 @@ import React, {useState} from 'react';
 import {Text, View, StyleSheet, TextInput, TouchableOpacity, SafeAreaView} from "react-native";
 import {colors} from "../config/constants";
 import {Ionicons} from "@expo/vector-icons";
+import {signInWithEmailAndPassword} from 'firebase/auth'
+import {auth} from "../firebaseConfig";
 
 const SignIn = ({navigation}) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const login = async () => {
+        await signInWithEmailAndPassword(auth, email, password)
+            .then(usr => {
+                navigation.popToTop();
+            })
+            .catch(e => alert(e.message))
+    }
+
     return (
         <SafeAreaView>
             <View style={styles.content}>
@@ -21,7 +32,7 @@ const SignIn = ({navigation}) => {
                     </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity style={styles.btn} activeOpacity={.7}>
+                <TouchableOpacity style={styles.btn} activeOpacity={.7} onPress={login}>
                     <Ionicons name="rocket-outline" color={colors.secondaryColor} size={16}/>
                     <Text style={styles.btnText}>Sign In</Text>
                 </TouchableOpacity>
