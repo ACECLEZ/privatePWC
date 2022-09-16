@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, Modal, Text} from "react-native";
+import {SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, Text, View} from "react-native";
 import ContactRow from "../components/ContactRow";
 import Divider from "../components/Divider";
 import {onAuthStateChanged} from "firebase/auth";
 import {auth, db} from "../firebaseConfig";
 import {onSnapshot, collection, query, where} from 'firebase/firestore'
-import {Ionicons} from "@expo/vector-icons";
 import {colors} from "../config/constants";
 
 const ChatList = ({navigation}) => {
@@ -29,34 +28,40 @@ const ChatList = ({navigation}) => {
 
     return (
         <SafeAreaView style={{flex: 1}}>
+            <View style={styles.messageStartContainer}>
+                <TouchableOpacity onPress={() => navigation.navigate('CreateGroup')}>
+                    <Text style={styles.messageStartText}>New Group</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('CreateChat')}>
+                    <Text style={styles.messageStartText}>New Message</Text>
+                </TouchableOpacity>
+            </View>
+            <Divider/>
+
             <ScrollView>
                 {chats.map((chat, index) => (
                     <React.Fragment key={index}>
-                        <ContactRow name={chat.users.find(x => x !== auth.currentUser.email)}
-                                    subtitle={chat.messages.length === 0 ? 'No messages' : chat.messages[0].text}
+                        <ContactRow name={chat.isGroup ? chat.groupName : chat.users.find(x => x !== auth.currentUser.email)}
+                                    subtitle={chat.messages.length === 0 ? 'No messages' : `${chat.messages[0].user.name === auth.currentUser.displayName ? 'You' : chat.messages[0].user.name}: ${chat.messages[0].text}`}
                                     onPress={() => navigation.navigate('Chat', {id: chat.id})}/>
                         <Divider/>
                     </React.Fragment>
                 ))}
             </ScrollView>
-            <TouchableOpacity style={styles.addContainer} onPress={() => navigation.navigate('CreateChat')}>
-                <Ionicons name="add" size={24} color={colors.primaryColor}/>
-            </TouchableOpacity>
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    addContainer: {
-        width: 64,
-        height: 64,
-        backgroundColor: colors.secondaryColorAlt,
-        borderRadius: 100,
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'absolute',
-        bottom: 16,
-        right: 16
+    messageStartContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+    },
+    messageStartText: {
+        color: colors.thirdColor,
+        fontSize: 16
     }
 })
 

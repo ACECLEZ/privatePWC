@@ -12,6 +12,7 @@ import SignUp from "./screens/SignUp";
 import Chat from "./screens/Chat";
 import UserProfile from "./screens/UserProfile";
 import CreateChat from "./screens/CreateChat";
+import CreateGroup from "./screens/CreateGroup";
 import {colors} from "./config/constants";
 
 const Stack = createNativeStackNavigator();
@@ -82,7 +83,8 @@ const App = () => {
                                   options={{headerShown: false, presentation: "fullScreenModal"}}/>
                     <Stack.Screen name="Chat" component={Chat}/>
                     <Stack.Screen name="UserProfile" component={UserProfile} options={{title: 'Profile'}}/>
-                    <Stack.Screen name="CreateChat" component={CreateChat} options={{title: 'Start a Chat'}}/>
+                    <Stack.Screen name="CreateChat" component={CreateChat} options={{title: 'New Chat'}}/>
+                    <Stack.Screen name="CreateGroup" component={CreateGroup} options={{title: 'New Group'}}/>
                 </Stack.Navigator>
             </NavigationContainer>
         </SafeAreaView>

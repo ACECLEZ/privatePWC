@@ -7,22 +7,33 @@ import {auth, db} from "../firebaseConfig";
 
 const CreateChat = ({navigation}) => {
     const [email, setEmail] = useState("");
+    const [error, setError] = useState("");
 
     const handleSubmit = async () => {
-        await addDoc(collection(db, "chats"), {
-            users: [auth.currentUser.email, email],
-            messages: []
-        })
-            .then(doc => navigation.navigate('Chat', {id: doc.id}))
-            .catch(e => alert(e.message))
+        if (email === "" || email === ' ') {
+            setError('Email can\'t be empty.')
+        } else if (!/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(email)) {
+            setError('Please type correct email.')
+        } else {
+            if (error) setError("")
+            await addDoc(collection(db, "chats"), {
+                users: [auth.currentUser.email, email],
+                messages: [],
+                isGroup: false
+            })
+                .then(doc => navigation.navigate('Chat', {id: doc.id}))
+                .catch(e => alert(e.message))
+        }
     }
 
     return (
         <SafeAreaView>
             <View style={styles.content}>
-                <Text style={styles.title}>Let's Chat</Text>
-                <TextInput keyboardType="email-address" textContentType='emailAddress' style={styles.input} placeholder="Email"
+                <Text style={styles.title}>Start a Chat</Text>
+                <TextInput keyboardType="email-address" textContentType='emailAddress' style={styles.input}
+                           placeholder="Email"
                            onChangeText={text => setEmail(text)}/>
+                <Text style={styles.errorText}>{error}</Text>
 
                 <TouchableOpacity style={styles.btn} activeOpacity={.7} onPress={handleSubmit}>
                     <Ionicons name="chatbox-outline" color={colors.secondaryColor} size={16}/>
@@ -72,6 +83,9 @@ const styles = StyleSheet.create({
     btnText: {
         color: colors.secondaryColor,
         marginLeft: 8
+    },
+    errorText: {
+        color: '#ff0000'
     }
 })
 
