@@ -3,13 +3,13 @@ import {getAuth} from 'firebase/auth'
 import {getFirestore} from 'firebase/firestore'
 
 const firebaseConfig = {
-    apiKey: "",
-    authDomain: "",
-    projectId: "",
-    storageBucket: "",
-    messagingSenderId: "",
-    appId: "",
-    measurementId: ""
+    apiKey: "AIzaSyDTlmGDP-CFvQ7Q7SFl0mO_0v1gBvJzA8Y",
+    authDomain: "privatepwc.firebaseapp.com",
+    projectId: "privatepwc",
+    storageBucket: "privatepwc.appspot.com",
+    messagingSenderId: "16165157516",
+    appId: "1:16165157516:web:db1dc8dd665d63c12459a9",
+    measurementId: "G-6H96X9EC00"
 };
 
 const app = initializeApp(firebaseConfig);
